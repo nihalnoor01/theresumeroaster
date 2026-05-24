@@ -78,7 +78,7 @@ export const roastResume = createServerFn({ method: "POST" })
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-pro",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: SYSTEM_PROMPT(data.level) },
           { role: "user", content: `Roast this resume and return the JSON:\n\n${data.text}` },
