@@ -12,13 +12,13 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Resume Roast — Brutally honest AI resume feedback" },
+      { title: "RoastMyResume — Brutally honest AI resume feedback" },
       {
         name: "description",
         content:
           "Upload your resume and get brutally honest AI feedback plus instant rewrites. Free. No signup.",
       },
-      { property: "og:title", content: "Resume Roast" },
+      { property: "og:title", content: "RoastMyResume" },
       {
         property: "og:description",
         content: "Brutally honest AI resume feedback + instant rewrites.",
@@ -34,6 +34,19 @@ const LEVELS: { id: RoastLevel; label: string; emoji: string }[] = [
   { id: "brutal", label: "Brutal", emoji: "🔥" },
   { id: "savage", label: "Savage", emoji: "💀" },
 ];
+
+function Logo() {
+  return (
+    <div className="flex items-center gap-2.5 select-none">
+      <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-flame shadow-flame">
+        <Flame className="h-4 w-4 text-flame-foreground" strokeWidth={2.5} />
+      </span>
+      <span className="text-base sm:text-lg font-bold tracking-tight">
+        Roast<span className="text-gradient-flame">My</span>Resume
+      </span>
+    </div>
+  );
+}
 
 function Index() {
   const roast = useServerFn(roastResume);
@@ -61,17 +74,12 @@ function Index() {
   return (
     <main className="min-h-screen">
       <header className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 font-bold">
-          <span className="text-2xl">🔥</span>
-          <span className="text-lg">Resume Roast</span>
-        </div>
-        <a
-          href="https://github.com"
-          className="text-xs text-muted-foreground hover:text-foreground hidden sm:inline"
-        >
+        <Logo />
+        <span className="text-xs text-muted-foreground hidden sm:inline">
           Free · No signup · Nothing stored
-        </a>
+        </span>
       </header>
+
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
         {phase === "idle" || phase === "error" ? (
