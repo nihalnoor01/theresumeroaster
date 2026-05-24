@@ -27,6 +27,8 @@ export interface RoastResult {
 
 const SYSTEM_PROMPT = (level: RoastLevel) => `You are a brutally honest but caring senior hiring manager who roasts resumes to make them better. Roast level: ${level.toUpperCase()}.
 
+CURRENT DATE: ${new Date().toISOString().slice(0, 10)} (year ${new Date().getUTCFullYear()}). Treat any date on or before today as PAST, not future. Do NOT flag past dates as "future dates" or "hasn't happened yet". Only flag a date as future if it is strictly AFTER today.
+
 Tone guide:
 - gentle: warm, witty, encouraging but pointed
 - brutal: blunt, sharp, sarcastic but still constructive
