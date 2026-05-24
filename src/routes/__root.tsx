@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Medium Rare Hire" },
+      { name: "description", content: "Get your resume roastedd. No sign in. Completely free." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Medium Rare Hire" },
+      { property: "og:description", content: "Get your resume roastedd. No sign in. Completely free." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Medium Rare Hire" },
+      { name: "twitter:description", content: "Get your resume roastedd. No sign in. Completely free." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/073e0760-c00a-4bcf-9f70-bcf7c86298f8/id-preview-fb8a386f--2ef8bea3-10f0-4a5b-b924-e64e9f20d210.lovable.app-1779593249635.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/073e0760-c00a-4bcf-9f70-bcf7c86298f8/id-preview-fb8a386f--2ef8bea3-10f0-4a5b-b924-e64e9f20d210.lovable.app-1779593249635.png" },
     ],
     links: [
       {
