@@ -7,18 +7,19 @@ import { RoastingScreen } from "@/components/RoastingScreen";
 import { Results } from "@/components/Results";
 import { extractText } from "@/lib/extract-text";
 import { roastResume, type RoastLevel, type RoastResult } from "@/lib/roast.functions";
+import logo from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "RoastMyResume — Brutally honest AI resume feedback" },
+      { title: "Medium Rare Hire — Brutally honest AI resume feedback" },
       {
         name: "description",
         content:
           "Upload your resume and get brutally honest AI feedback plus instant rewrites. Free. No signup.",
       },
-      { property: "og:title", content: "RoastMyResume" },
+      { property: "og:title", content: "Medium Rare Hire" },
       {
         property: "og:description",
         content: "Brutally honest AI resume feedback + instant rewrites.",
@@ -38,11 +39,13 @@ const LEVELS: { id: RoastLevel; label: string; emoji: string }[] = [
 function Logo() {
   return (
     <div className="flex items-center gap-2.5 select-none">
-      <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-flame shadow-flame">
-        <Flame className="h-4 w-4 text-flame-foreground" strokeWidth={2.5} />
-      </span>
+      <img
+        src={logo}
+        alt="Medium Rare Hire"
+        className="h-10 w-10 sm:h-11 sm:w-11 invert brightness-200 contrast-200"
+      />
       <span className="text-base sm:text-lg font-bold tracking-tight">
-        Roast<span className="text-gradient-flame">My</span>Resume
+        Medium <span className="text-gradient-flame">Rare</span> Hire
       </span>
     </div>
   );
