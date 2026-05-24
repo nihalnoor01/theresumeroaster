@@ -7,6 +7,7 @@ import { RoastingScreen } from "@/components/RoastingScreen";
 import { Results } from "@/components/Results";
 import { extractText } from "@/lib/extract-text";
 import { roastResume, type RoastLevel, type RoastResult } from "@/lib/roast.functions";
+import logo from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
