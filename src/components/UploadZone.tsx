@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { UploadCloud, FileText, X } from "lucide-react";
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
 export function UploadZone({ onFile, disabled }: Props) {
   const [drag, setDrag] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback(
     (f: File) => {
@@ -18,8 +19,22 @@ export function UploadZone({ onFile, disabled }: Props) {
     [onFile],
   );
 
+  const openPicker = () => {
+    if (disabled) return;
+    inputRef.current?.click();
+  };
+
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={openPicker}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openPicker();
+        }
+      }}
       onDragOver={(e) => {
         e.preventDefault();
         setDrag(true);
@@ -31,20 +46,21 @@ export function UploadZone({ onFile, disabled }: Props) {
         const f = e.dataTransfer.files?.[0];
         if (f) handleFile(f);
       }}
-      className={`relative rounded-2xl border-2 border-dashed p-10 sm:p-14 text-center transition-all shadow-card-soft ${
+      className={`relative rounded-2xl border-2 border-dashed p-10 sm:p-14 text-center transition-all shadow-card-soft cursor-pointer ${
         drag
           ? "border-primary bg-primary/5 scale-[1.01]"
           : "border-border bg-card/60 hover:border-primary/60 hover:bg-card"
       } ${disabled ? "opacity-50 pointer-events-none" : ""}`}
     >
       <input
-        id="resume-upload"
+        ref={inputRef}
         type="file"
         accept=".pdf,.docx,.txt"
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        className="hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];
           if (f) handleFile(f);
+          e.target.value = "";
         }}
       />
       {file ? (
@@ -55,7 +71,6 @@ export function UploadZone({ onFile, disabled }: Props) {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              e.preventDefault();
               setFile(null);
             }}
             className="relative z-10 p-1 rounded-md hover:bg-muted"
