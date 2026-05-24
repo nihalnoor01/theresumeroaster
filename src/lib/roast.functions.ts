@@ -78,7 +78,7 @@ export const roastResume = createServerFn({ method: "POST" })
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-3-flash-preview",
         messages: [
           { role: "system", content: SYSTEM_PROMPT(data.level) },
           { role: "user", content: `Roast this resume and return the JSON:\n\n${data.text}` },
@@ -95,8 +95,16 @@ export const roastResume = createServerFn({ method: "POST" })
     }
 
     const json = await res.json();
-    const content = json.choices?.[0]?.message?.content;
-    if (!content) throw new Error("Empty AI response");
+    const choice = json.choices?.[0];
+    const content: string | undefined =
+      choice?.message?.content ??
+      (Array.isArray(choice?.message?.content)
+        ? choice.message.content.map((c: any) => c?.text ?? "").join("")
+        : undefined);
+    if (!content) {
+      console.error("Empty AI response. finish_reason:", choice?.finish_reason, "raw:", JSON.stringify(json).slice(0, 500));
+      throw new Error("Empty AI response");
+    }
 
     let parsed: RoastResult;
     try {
