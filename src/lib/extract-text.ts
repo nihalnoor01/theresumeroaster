@@ -24,8 +24,9 @@ async function extractPdf(file: File): Promise<string> {
 }
 
 async function extractDocx(file: File): Promise<string> {
-  const mammoth = await import("mammoth/mammoth.browser");
+  // @ts-ignore - browser build has no types
+  const mammoth: any = await import("mammoth/mammoth.browser");
   const buf = await file.arrayBuffer();
-  const { value } = await (mammoth as any).extractRawText({ arrayBuffer: buf });
+  const { value } = await mammoth.extractRawText({ arrayBuffer: buf });
   return (value as string).trim();
 }
