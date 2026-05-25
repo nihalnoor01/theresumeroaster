@@ -60,7 +60,7 @@ function SectionCard({ id, section, index }: { id: string; section: SectionRoast
       {/* Roast */}
       <div className={`rounded-xl border bg-card p-5 shadow-card-soft ring-1 ${sev.ring}`}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold">{id}</h3>
+          <h2 className="font-semibold">{id}</h2>
           <div className="flex items-center gap-2">
             <span className={`text-xs font-medium ${sev.text}`}>{sev.label}</span>
             <span className="text-xs text-muted-foreground">· {section.score}/100</span>
