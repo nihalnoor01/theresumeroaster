@@ -13,16 +13,16 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Medium Rare Hire — Brutally honest AI resume feedback" },
+      { title: "Free AI Resume Review — Instant Roast & Rewrites | Medium Rare Hire" },
       {
         name: "description",
         content:
-          "Upload your resume and get brutally honest AI feedback plus instant rewrites. Free. No signup.",
+          "Free AI resume review in seconds. Upload your resume for brutally honest feedback, ATS-friendly rewrites, and a no-holds-barred resume roast. No signup.",
       },
-      { property: "og:title", content: "Medium Rare Hire" },
+      { property: "og:title", content: "Free AI Resume Review — Medium Rare Hire" },
       {
         property: "og:description",
-        content: "Brutally honest AI resume feedback + instant rewrites.",
+        content: "AI resume review with brutally honest feedback and instant rewrites. Free, no signup.",
       },
       { property: "og:url", content: "https://mediumrarehire.lovable.app/" },
     ],
@@ -36,11 +36,41 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "WebApplication",
           name: "Medium Rare Hire",
+          alternateName: "AI Resume Review",
           url: "https://mediumrarehire.lovable.app",
           applicationCategory: "BusinessApplication",
           operatingSystem: "All",
-          description: "Brutally honest AI resume feedback and instant rewrites.",
+          description: "Free AI resume review with brutally honest feedback and instant rewrites.",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "Is the AI resume review free?",
+              acceptedAnswer: { "@type": "Answer", text: "Yes. Medium Rare Hire is 100% free, no signup required, and nothing is stored." },
+            },
+            {
+              "@type": "Question",
+              name: "Can AI really review my resume?",
+              acceptedAnswer: { "@type": "Answer", text: "Yes. Our AI scans your resume for weak verbs, missing metrics, clichés, and ATS issues, then rewrites the weakest sections instantly." },
+            },
+            {
+              "@type": "Question",
+              name: "How do I fix my resume?",
+              acceptedAnswer: { "@type": "Answer", text: "Upload it here. You'll get an honest roast plus paste-ready rewrites for every weak bullet in seconds." },
+            },
+            {
+              "@type": "Question",
+              name: "What is Medium Rare Hire?",
+              acceptedAnswer: { "@type": "Answer", text: "Medium Rare Hire is a free AI resume review tool that gives brutally honest feedback and instant rewrites." },
+            },
+          ],
         }),
       },
     ],
@@ -112,12 +142,12 @@ function Index() {
                 Brutally honest AI · Free · No signup
               </div>
               <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05]">
-                Your resume has problems.{" "}
-                <span className="text-gradient-flame">Let's fix them.</span>
+                Free AI Resume Review.{" "}
+                <span className="text-gradient-flame">Brutally honest.</span>
               </h1>
               <p className="mt-5 text-lg text-muted-foreground max-w-xl mx-auto">
-                Get brutally honest AI feedback + instant rewrites. Drop your resume below and watch
-                the roast unfold.
+                Upload your resume and get an honest AI roast plus instant, ATS-friendly rewrites for
+                every weak section. No signup. Nothing stored.
               </p>
             </div>
 
@@ -162,6 +192,25 @@ function Index() {
                 ))}
               </div>
             </div>
+
+            <section aria-labelledby="faq-heading" className="mt-20 max-w-2xl mx-auto">
+              <h2 id="faq-heading" className="text-2xl sm:text-3xl font-bold tracking-tight text-center">
+                AI Resume Review — FAQ
+              </h2>
+              <div className="mt-6 space-y-4">
+                {[
+                  { q: "Is the AI resume review free?", a: "Yes. Medium Rare Hire is 100% free, no signup required, and nothing is stored." },
+                  { q: "Can AI really review my resume?", a: "Yes. Our AI scans for weak verbs, missing metrics, clichés, and ATS issues, then rewrites the weakest sections instantly." },
+                  { q: "How do I fix my resume?", a: "Upload it above. You'll get an honest roast plus paste-ready rewrites for every weak bullet in seconds." },
+                  { q: "What is Medium Rare Hire?", a: "Medium Rare Hire is a free AI resume review tool that gives brutally honest feedback and instant rewrites." },
+                ].map((f) => (
+                  <details key={f.q} className="rounded-xl border bg-card/60 p-4 shadow-card-soft">
+                    <summary className="font-semibold text-sm cursor-pointer">{f.q}</summary>
+                    <p className="text-sm text-muted-foreground mt-2">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
           </section>
         ) : phase === "loading" ? (
           <RoastingScreen />
