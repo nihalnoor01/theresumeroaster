@@ -21,9 +21,9 @@ export function RoastingScreen() {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center gap-6 text-center animate-fade-up">
       <div className="text-7xl animate-flame-pulse">🔥</div>
-      <h2 className="text-3xl sm:text-4xl font-bold text-gradient-flame">
+      <h1 className="text-3xl sm:text-4xl font-bold text-gradient-flame">
         Roasting your resume...
-      </h2>
+      </h1>
       <p key={idx} className="text-muted-foreground text-lg animate-fade-up">
         {MESSAGES[idx]}
       </p>
