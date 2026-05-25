@@ -69,6 +69,7 @@ export function UploadZone({ onFile, disabled }: Props) {
           <span className="font-medium">{file.name}</span>
           <button
             type="button"
+            aria-label="Remove file"
             onClick={(e) => {
               e.stopPropagation();
               setFile(null);
