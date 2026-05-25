@@ -142,12 +142,12 @@ function Index() {
                 Brutally honest AI · Free · No signup
               </div>
               <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05]">
-                Your resume has problems.{" "}
-                <span className="text-gradient-flame">Let's fix them.</span>
+                Free AI Resume Review.{" "}
+                <span className="text-gradient-flame">Brutally honest.</span>
               </h1>
               <p className="mt-5 text-lg text-muted-foreground max-w-xl mx-auto">
-                Get brutally honest AI feedback + instant rewrites. Drop your resume below and watch
-                the roast unfold.
+                Upload your resume and get an honest AI roast plus instant, ATS-friendly rewrites for
+                every weak section. No signup. Nothing stored.
               </p>
             </div>
 
