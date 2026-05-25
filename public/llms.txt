@@ -1,0 +1,7 @@
+# Medium Rare Hire
+
+> Brutally honest AI resume feedback and instant rewrites. Upload a PDF, DOCX, or TXT resume and get a roast plus paste-ready improvements. Free, no signup, nothing stored.
+
+## Pages
+
+- [Home](/): Upload your resume, pick a roast level (Gentle / Brutal / Savage), and get AI feedback with section-by-section rewrites.
