@@ -192,6 +192,25 @@ function Index() {
                 ))}
               </div>
             </div>
+
+            <section aria-labelledby="faq-heading" className="mt-20 max-w-2xl mx-auto">
+              <h2 id="faq-heading" className="text-2xl sm:text-3xl font-bold tracking-tight text-center">
+                AI Resume Review — FAQ
+              </h2>
+              <div className="mt-6 space-y-4">
+                {[
+                  { q: "Is the AI resume review free?", a: "Yes. Medium Rare Hire is 100% free, no signup required, and nothing is stored." },
+                  { q: "Can AI really review my resume?", a: "Yes. Our AI scans for weak verbs, missing metrics, clichés, and ATS issues, then rewrites the weakest sections instantly." },
+                  { q: "How do I fix my resume?", a: "Upload it above. You'll get an honest roast plus paste-ready rewrites for every weak bullet in seconds." },
+                  { q: "What is Medium Rare Hire?", a: "Medium Rare Hire is a free AI resume review tool that gives brutally honest feedback and instant rewrites." },
+                ].map((f) => (
+                  <details key={f.q} className="rounded-xl border bg-card/60 p-4 shadow-card-soft">
+                    <summary className="font-semibold text-sm cursor-pointer">{f.q}</summary>
+                    <p className="text-sm text-muted-foreground mt-2">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
           </section>
         ) : phase === "loading" ? (
           <RoastingScreen />
