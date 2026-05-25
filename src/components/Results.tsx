@@ -60,7 +60,7 @@ function SectionCard({ id, section, index }: { id: string; section: SectionRoast
       {/* Roast */}
       <div className={`rounded-xl border bg-card p-5 shadow-card-soft ring-1 ${sev.ring}`}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold">{id}</h3>
+          <h2 className="font-semibold">{id}</h2>
           <div className="flex items-center gap-2">
             <span className={`text-xs font-medium ${sev.text}`}>{sev.label}</span>
             <span className="text-xs text-muted-foreground">· {section.score}/100</span>
@@ -80,9 +80,9 @@ function SectionCard({ id, section, index }: { id: string; section: SectionRoast
       {/* Rewrite */}
       <div className="rounded-xl border bg-card p-5 shadow-card-soft">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold flex items-center gap-2">
+          <h2 className="font-semibold flex items-center gap-2">
             <span className="text-primary">✍️</span> Improved
-          </h3>
+          </h2>
           <CopyBtn text={section.rewrite} />
         </div>
         {section.original && section.original !== "(missing)" && (
@@ -114,7 +114,9 @@ export function Results({ result, onReset }: { result: RoastResult; onReset: () 
       <div className="rounded-2xl border bg-card p-6 sm:p-8 shadow-card-soft animate-fade-up">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="text-xs uppercase tracking-widest text-muted-foreground">Overall</div>
+            <h1 className="text-xs uppercase tracking-widest text-muted-foreground font-medium">
+              Your Resume Roast — Overall Score
+            </h1>
             <div className="flex items-baseline gap-3 mt-1">
               <span className="text-6xl sm:text-7xl font-bold text-gradient-flame leading-none">
                 <AnimatedScore value={result.overallScore} />

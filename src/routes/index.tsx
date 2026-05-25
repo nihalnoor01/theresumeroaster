@@ -24,6 +24,25 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Brutally honest AI resume feedback + instant rewrites.",
       },
+      { property: "og:url", content: "https://mediumrarehire.lovable.app/" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://mediumrarehire.lovable.app/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: "Medium Rare Hire",
+          url: "https://mediumrarehire.lovable.app",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "All",
+          description: "Brutally honest AI resume feedback and instant rewrites.",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        }),
+      },
     ],
   }),
 });
