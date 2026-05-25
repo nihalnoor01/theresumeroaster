@@ -114,7 +114,9 @@ export function Results({ result, onReset }: { result: RoastResult; onReset: () 
       <div className="rounded-2xl border bg-card p-6 sm:p-8 shadow-card-soft animate-fade-up">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="text-xs uppercase tracking-widest text-muted-foreground">Overall</div>
+            <h1 className="text-xs uppercase tracking-widest text-muted-foreground font-medium">
+              Your Resume Roast — Overall Score
+            </h1>
             <div className="flex items-baseline gap-3 mt-1">
               <span className="text-6xl sm:text-7xl font-bold text-gradient-flame leading-none">
                 <AnimatedScore value={result.overallScore} />
