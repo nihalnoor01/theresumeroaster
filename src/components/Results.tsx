@@ -80,9 +80,9 @@ function SectionCard({ id, section, index }: { id: string; section: SectionRoast
       {/* Rewrite */}
       <div className="rounded-xl border bg-card p-5 shadow-card-soft">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold flex items-center gap-2">
+          <h2 className="font-semibold flex items-center gap-2">
             <span className="text-primary">✍️</span> Improved
-          </h3>
+          </h2>
           <CopyBtn text={section.rewrite} />
         </div>
         {section.original && section.original !== "(missing)" && (
