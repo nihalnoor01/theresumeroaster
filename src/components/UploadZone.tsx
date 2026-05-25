@@ -84,7 +84,7 @@ export function UploadZone({ onFile, disabled }: Props) {
           <div className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-flame shadow-flame">
             <UploadCloud className="h-7 w-7 text-flame-foreground" />
           </div>
-          <h3 className="text-xl font-semibold">Drop your resume here</h3>
+          <h2 className="text-xl font-semibold">Drop your resume here</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             PDF, DOCX, or TXT — up to 10MB. Nothing is stored.
           </p>
