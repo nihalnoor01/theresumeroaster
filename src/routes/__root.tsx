@@ -72,7 +72,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "google-site-verification", content: "XD1y03tgsE8gZuScH79z47CN2Fx0KQz7-YeJviw0iw8" },
+      { name: "google-site-verification", content: "wQbe6AMaMhaZkU8xr3dSyUlY0Jr7g2jbNPGEc57bao0" },
       { title: "Free AI Resume Review — Instant Roast & Rewrites | Medium Rare Hire" },
       { name: "description", content: "Free AI resume review in seconds. Get brutally honest feedback, ATS-friendly rewrites, and a resume roast. No signup, nothing stored." },
       { name: "keywords", content: "ai resume review, resume ai, resume review ai, ai resume checker, resume roast, free resume review, ats resume checker, medium rare hire" },
