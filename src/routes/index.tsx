@@ -11,29 +11,29 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Free AI Resume Review — Instant Roast & Rewrites | Medium Rare Hire" },
+      { title: "The Resume Roaster — Instant AI Resume Roast & Rewrites" },
       {
         name: "description",
         content:
           "Free AI resume review in seconds. Upload your resume for brutally honest feedback, ATS-friendly rewrites, and a no-holds-barred resume roast. No signup.",
       },
-      { property: "og:title", content: "Free AI Resume Review — Medium Rare Hire" },
+      { property: "og:title", content: "The Resume Roaster — Instant AI Resume Roast & Rewrites" },
       {
         property: "og:description",
         content: "AI resume review with brutally honest feedback and instant rewrites. Free, no signup.",
       },
-      { property: "og:url", content: "https://mediumrarehire.com/" },
+      { property: "og:url", content: "https://theresumeroaster.nihalnoormpm01.workers.dev/" },
     ],
-    links: [{ rel: "canonical", href: "https://mediumrarehire.com/" }],
+    links: [{ rel: "canonical", href: "https://theresumeroaster.nihalnoormpm01.workers.dev/" }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebApplication",
-          name: "Medium Rare Hire",
-          alternateName: "AI Resume Review",
-          url: "https://mediumrarehire.com",
+          name: "The Resume Roaster",
+          alternateName: "The Resume Roaster",
+          url: "https://theresumeroaster.nihalnoormpm01.workers.dev/",
           applicationCategory: "BusinessApplication",
           operatingSystem: "All",
           description: "Free AI resume review with brutally honest feedback and instant rewrites.",
@@ -45,12 +45,12 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: [
-            { "@type": "Question", name: "Is the AI resume review free?", acceptedAnswer: { "@type": "Answer", text: "Yes. Medium Rare Hire is 100% free, no signup required, and nothing is stored." } },
-            { "@type": "Question", name: "Can AI really review my resume?", acceptedAnswer: { "@type": "Answer", text: "Yes. Our AI scans your resume for weak verbs, missing metrics, clichés, and ATS issues, then rewrites the weakest sections instantly." } },
-            { "@type": "Question", name: "How do I fix my resume?", acceptedAnswer: { "@type": "Answer", text: "Upload it here. You'll get an honest roast plus paste-ready rewrites for every weak bullet in seconds." } },
-            { "@type": "Question", name: "What is Medium Rare Hire?", acceptedAnswer: { "@type": "Answer", text: "Medium Rare Hire is a free AI resume review tool that gives brutally honest feedback and instant rewrites." } },
-          ],
+            mainEntity: [
+              { "@type": "Question", name: "Is this actually free, or will I get a bill?", acceptedAnswer: { "@type": "Answer", text: "The Resume Roaster is 100% free. No signup, no premium tiers, no credit cards, and absolutely nothing is stored on our servers. We read it, we roast it, we forget it." } },
+              { "@type": "Question", name: "Can an AI really evaluate my professional worth?", acceptedAnswer: { "@type": "Answer", text: "It won't understand your soul, but it excels at spotting what recruiters hate: weak verbs ('helped with'), zero metrics ('improved sales'), and tired buzzwords. It instantly rewrites them into high-impact bullet points." } },
+              { "@type": "Question", name: "How do I turn this roast into a job offer?", acceptedAnswer: { "@type": "Answer", text: "Take the paste-ready rewrites generated for your weak bullet points, update the placeholder metrics to reflect your actual achievements, and swap them into your resume template." } },
+              { "@type": "Question", name: "Why \"The Resume Roaster\"?", acceptedAnswer: { "@type": "Answer", text: "Because sugarcoated feedback from friends doesn't get you hired. A brutally honest, newspaper-style critique exposes the critical gaps in your resume so you can fix them before a real hiring manager throws it in the trash." } },
+            ],
         }),
       },
     ],
@@ -329,10 +329,10 @@ function Index() {
               </div>
               <div className="space-y-4">
                 {[
-                  { q: "Is the AI resume review free?", a: "Yes. Medium Rare Hire is 100% free, no signup required, and nothing is stored." },
-                  { q: "Can AI really review my resume?", a: "Yes. Our AI scans for weak verbs, missing metrics, clichés, and ATS issues, then rewrites the weakest sections instantly." },
-                  { q: "How do I fix my resume?", a: "Upload it above. You'll get an honest roast plus paste-ready rewrites for every weak bullet in seconds." },
-                  { q: "What is Medium Rare Hire?", a: "Medium Rare Hire is a free AI resume review tool that gives brutally honest feedback and instant rewrites." },
+                  { q: "Is this actually free, or will I get a bill?", a: "The Resume Roaster is 100% free. No signup, no premium tiers, no credit cards, and absolutely nothing is stored on our servers. We read it, we roast it, we forget it." },
+                  { q: "Can an AI really evaluate my professional worth?", a: "It won't understand your soul, but it excels at spotting what recruiters hate: weak verbs ('helped with'), zero metrics ('improved sales'), and tired buzzwords. It instantly rewrites them into high-impact bullet points." },
+                  { q: "How do I turn this roast into a job offer?", a: "Take the paste-ready rewrites generated for your weak bullet points, update the placeholder metrics to reflect your actual achievements, and swap them into your resume template." },
+                  { q: "Why \"The Resume Roaster\"?", a: "Because sugarcoated feedback from friends doesn't get you hired. A brutally honest, newspaper-style critique exposes the critical gaps in your resume so you can fix them before a real hiring manager throws it in the trash." },
                 ].map((f) => (
                   <details key={f.q} className="border-2 border-ink bg-white p-4">
                     <summary className="font-display font-black uppercase text-sm cursor-pointer tracking-tight">
