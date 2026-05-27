@@ -69,15 +69,17 @@ function Masthead() {
   return (
     <header className="border-b-2 border-ink">
       <div className="bg-ink text-newsprint">
-        <div className="max-w-[900px] mx-auto px-4 py-4 sm:py-5 grid grid-cols-3 items-center gap-2">
-          <div className="font-mono-news text-[10px] sm:text-xs uppercase tracking-widest">
-            Est. 2025
+        <div className="max-w-[900px] mx-auto px-4 py-3 sm:py-4 flex flex-col items-center gap-2">
+          <div className="w-full flex items-center justify-between gap-2">
+            <div className="font-mono-news text-[9px] sm:text-[11px] uppercase tracking-widest">
+              Est. 2025
+            </div>
+            <div className="font-mono-news text-[9px] sm:text-[11px] uppercase tracking-widest text-right">
+              Free · No Signup · Nothing Stored
+            </div>
           </div>
-          <div className="text-center font-fraktur text-2xl sm:text-5xl leading-none whitespace-nowrap">
+          <div className="text-center font-fraktur text-3xl sm:text-5xl leading-none whitespace-nowrap">
             The Resume Roaster
-          </div>
-          <div className="font-mono-news text-[9px] sm:text-[11px] uppercase tracking-widest text-right">
-            Free · No Signup · Nothing Stored
           </div>
         </div>
       </div>
