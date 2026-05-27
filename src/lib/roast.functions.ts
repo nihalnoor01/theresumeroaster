@@ -25,9 +25,10 @@ export interface RoastResult {
   };
 }
 
-const SYSTEM_PROMPT = (level: RoastLevel) => `You are a brutally honest but caring senior hiring manager who roasts resumes to make them better. Roast level: ${level.toUpperCase()}.
+const SYSTEM_PROMPT = (level: RoastLevel, today: string, year: number) => `You are a brutally honest but caring senior hiring manager who roasts resumes to make them better. Roast level: ${level.toUpperCase()}.
 
-CURRENT DATE: ${new Date().toISOString().slice(0, 10)} (year ${new Date().getUTCFullYear()}). Treat any date on or before today as PAST, not future. Do NOT flag past dates as "future dates" or "hasn't happened yet". Only flag a date as future if it is strictly AFTER today.
+IMPORTANT — TODAY'S DATE IS ${today} (THE YEAR IS ${year}).
+Any date on or before ${today} is in the PAST. Do NOT call past dates "future dates". Only flag a date as future if it is strictly AFTER ${today}. For example, "Dec 2024", "Jan 2025", "Jun 2025" are all in the PAST because the current year is ${year}. Do NOT suggest the candidate "adjust dates to reflect past completion" — those dates ARE already in the past.
 
 Tone guide:
 - gentle: warm, witty, encouraging but pointed
@@ -62,28 +63,58 @@ Where SectionRoast = {
 }`;
 
 export const roastResume = createServerFn({ method: "POST" })
-  .inputValidator((d: { text: string; level: RoastLevel }) => {
+  .inputValidator((d: { text: string; level: RoastLevel; provider?: "gemini" | "groq" }) => {
     if (!d?.text || typeof d.text !== "string") throw new Error("Resume text required");
     if (d.text.length < 50) throw new Error("Resume text too short");
     if (d.text.length > 30000) d.text = d.text.slice(0, 30000);
     if (!["gentle", "brutal", "savage"].includes(d.level)) d.level = "brutal";
+    if (!d.provider) d.provider = "gemini";
     return d;
   })
   .handler(async ({ data }) => {
-    const apiKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey) throw new Error("LOVABLE_API_KEY not configured");
+    const geminiKey = process.env.GEMINI_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
+    const groqKey = process.env.GROQ_API_KEY;
 
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    let url = "";
+    let headers: Record<string, string> = { "Content-Type": "application/json" };
+    let model = "";
+
+    if (data.provider === "groq") {
+      if (!groqKey) {
+        throw new Error("GROQ_API_KEY not configured. Please add it to your .env file.");
+      }
+      url = "https://api.groq.com/openai/v1/chat/completions";
+      headers["Authorization"] = `Bearer ${groqKey}`;
+      model = "llama-3.3-70b-versatile";
+    } else {
+      if (geminiKey) {
+        url = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
+        headers["Authorization"] = `Bearer ${geminiKey}`;
+        model = "gemini-2.5-flash";
+      } else if (openaiKey) {
+        url = "https://api.openai.com/v1/chat/completions";
+        headers["Authorization"] = `Bearer ${openaiKey}`;
+        model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+      } else {
+        throw new Error(
+          "No API key configured. Please set GEMINI_API_KEY or OPENAI_API_KEY in your environment variables or .env file."
+        );
+      }
+    }
+
+    const now = new Date();
+    const today = now.toISOString().slice(0, 10);
+    const year = now.getFullYear();
+
+    const res = await fetch(url, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model,
         messages: [
-          { role: "system", content: SYSTEM_PROMPT(data.level) },
-          { role: "user", content: `Roast this resume and return the JSON:\n\n${data.text}` },
+          { role: "system", content: SYSTEM_PROMPT(data.level, today, year) },
+          { role: "user", content: `Today is ${today}. Roast this resume and return the JSON:\n\n${data.text}` },
         ],
         response_format: { type: "json_object" },
       }),
@@ -92,7 +123,6 @@ export const roastResume = createServerFn({ method: "POST" })
     if (!res.ok) {
       const body = await res.text();
       if (res.status === 429) throw new Error("Rate limit hit. Try again in a moment.");
-      if (res.status === 402) throw new Error("AI credits exhausted. Add credits in Settings → Workspace → Usage.");
       throw new Error(`AI error ${res.status}: ${body.slice(0, 200)}`);
     }
 

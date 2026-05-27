@@ -84,8 +84,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Free AI Resume Review — Instant Roast & Rewrites" },
       { name: "twitter:description", content: "Free AI resume review in seconds. Brutally honest feedback + instant rewrites." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/073e0760-c00a-4bcf-9f70-bcf7c86298f8/id-preview-fb8a386f--2ef8bea3-10f0-4a5b-b924-e64e9f20d210.lovable.app-1779593249635.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/073e0760-c00a-4bcf-9f70-bcf7c86298f8/id-preview-fb8a386f--2ef8bea3-10f0-4a5b-b924-e64e9f20d210.lovable.app-1779593249635.png" },
+      { property: "og:image", content: "https://mediumrarehire.com/preview.png" },
+      { name: "twitter:image", content: "https://mediumrarehire.com/preview.png" },
     ],
     links: [
       {
@@ -101,7 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "WebSite",
           name: "Medium Rare Hire",
           alternateName: ["MediumRareHire", "Medium Rare Hire AI Resume Review"],
-          url: "https://mediumrarehire.lovable.app",
+          url: "https://mediumrarehire.com",
           description: "Free AI resume review with brutally honest feedback and instant rewrites.",
         }),
       },

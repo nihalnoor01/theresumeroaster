@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UploadZone } from "@/components/UploadZone";
 import { RoastingScreen } from "@/components/RoastingScreen";
 import { Results } from "@/components/Results";
@@ -22,9 +22,9 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "AI resume review with brutally honest feedback and instant rewrites. Free, no signup.",
       },
-      { property: "og:url", content: "https://mediumrarehire.lovable.app/" },
+      { property: "og:url", content: "https://mediumrarehire.com/" },
     ],
-    links: [{ rel: "canonical", href: "https://mediumrarehire.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://mediumrarehire.com/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/")({
           "@type": "WebApplication",
           name: "Medium Rare Hire",
           alternateName: "AI Resume Review",
-          url: "https://mediumrarehire.lovable.app",
+          url: "https://mediumrarehire.com",
           applicationCategory: "BusinessApplication",
           operatingSystem: "All",
           description: "Free AI resume review with brutally honest feedback and instant rewrites.",
@@ -59,6 +59,37 @@ export const Route = createFileRoute("/")({
 
 type Phase = "idle" | "loading" | "results" | "error";
 
+const DAILY_LIMIT = 2;
+const STORAGE_KEY = "resumeroaster_usage";
+
+function getUsageToday(): number {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return 0;
+    const data = JSON.parse(raw);
+    const today = new Date().toISOString().slice(0, 10);
+    if (data.date !== today) return 0;
+    return data.count ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+function incrementUsage(): number {
+  const today = new Date().toISOString().slice(0, 10);
+  let count = 0;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (data.date === today) count = data.count ?? 0;
+    }
+  } catch {}
+  count += 1;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: today, count }));
+  return count;
+}
+
 const LEVELS: { id: RoastLevel; label: string; emoji: string }[] = [
   { id: "gentle", label: "Gentle Edition", emoji: "🫶" },
   { id: "brutal", label: "Brutal Edition", emoji: "🔥" },
@@ -72,7 +103,7 @@ function Masthead() {
         <div className="max-w-[900px] mx-auto px-4 py-3 sm:py-4 flex flex-col items-center gap-2">
           <div className="w-full flex items-center justify-between gap-2">
             <div className="font-mono-news text-[9px] sm:text-[11px] uppercase tracking-widest">
-              Est. 2025
+              Est. 2026
             </div>
             <div className="font-mono-news text-[9px] sm:text-[11px] uppercase tracking-widest text-right">
               Free · No Signup · Nothing Stored
@@ -122,14 +153,30 @@ function Index() {
   const [result, setResult] = useState<RoastResult | null>(null);
   const [error, setError] = useState("");
   const [level, setLevel] = useState<RoastLevel>("brutal");
+  const [provider, setProvider] = useState<"gemini" | "groq">("gemini");
+  const [roastsUsed, setRoastsUsed] = useState(0);
+
+  const remaining = DAILY_LIMIT - roastsUsed;
+  const limitReached = remaining <= 0;
+
+  useEffect(() => {
+    setRoastsUsed(getUsageToday());
+  }, []);
 
   async function handleFile(file: File) {
+    if (limitReached) {
+      setError("You've used all your free roasts for today. Come back tomorrow!");
+      setPhase("error");
+      return;
+    }
     setPhase("loading");
     setError("");
     try {
       const text = await extractText(file);
       if (text.length < 50) throw new Error("Couldn't read enough text from that file. Try a different format.");
-      const r = await roast({ data: { text, level } });
+      const r = await roast({ data: { text, level, provider } });
+      const newCount = incrementUsage();
+      setRoastsUsed(newCount);
       setResult(r);
       setPhase("results");
       setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
@@ -163,30 +210,84 @@ function Index() {
 
             <div className="rule-double mb-8" />
 
-            {/* Roast Level Selector */}
-            <div className="mb-6">
-              <div className="font-mono-news text-xs uppercase tracking-[0.25em] mb-3 text-center">
-                Roast Intensity:
+            {/* Roast Controls (Intensity & Engine) */}
+            <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              {/* Roast Level Selector */}
+              <div className="flex-1">
+                <div className="font-mono-news text-xs uppercase tracking-[0.25em] mb-3 text-center md:text-left">
+                  Roast Intensity:
+                </div>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                  {LEVELS.map((l, i) => (
+                    <button
+                      key={l.id}
+                      onClick={() => setLevel(l.id)}
+                      className={`border-2 border-ink px-4 py-2 font-mono-news text-xs uppercase tracking-widest font-bold transition-all ${level === l.id
+                          ? "bg-ink text-newsprint"
+                          : "bg-white text-ink hover:bg-muted"
+                        }`}
+                      style={{ transform: level === l.id ? `rotate(${i === 0 ? -1.5 : i === 1 ? 1 : -1}deg)` : undefined }}
+                    >
+                      {l.emoji} {l.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                {LEVELS.map((l, i) => (
-                  <button
-                    key={l.id}
-                    onClick={() => setLevel(l.id)}
-                    className={`border-2 border-ink px-4 py-2 font-mono-news text-xs uppercase tracking-widest font-bold transition-all ${
-                      level === l.id
-                        ? "bg-ink text-newsprint"
-                        : "bg-white text-ink hover:bg-muted"
-                    }`}
-                    style={{ transform: level === l.id ? `rotate(${i === 0 ? -1.5 : i === 1 ? 1 : -1}deg)` : undefined }}
+
+              {/* AI Engine Dropdown */}
+              <div className="flex-shrink-0 text-center md:text-right">
+                <div className="font-mono-news text-xs uppercase tracking-[0.25em] mb-3">
+                  AI Engine:
+                </div>
+                <div className="relative inline-block text-left">
+                  <select
+                    value={provider}
+                    onChange={(e) => setProvider(e.target.value as "gemini" | "groq")}
+                    className="appearance-none bg-white border-2 border-ink px-4 py-2.5 font-mono-news text-xs uppercase tracking-widest font-bold pr-10 cursor-pointer focus:outline-none focus:bg-muted transition-all"
+                    style={{ transform: "rotate(-1deg)" }}
                   >
-                    {l.emoji} {l.label}
-                  </button>
-                ))}
+                    <option value="gemini">Gemini (Descriptive)</option>
+                    <option value="groq">Llama (Fast)</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-ink">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <UploadZone onFile={handleFile} />
+            {/* Roasts Remaining Counter */}
+            <div className="mb-4 text-center">
+              <div className="inline-flex items-center gap-2 border-2 border-ink bg-white px-4 py-2" style={{ transform: "rotate(0.5deg)" }}>
+                <span className="font-mono-news text-xs uppercase tracking-[0.2em] font-bold">
+                  Roasts Today:
+                </span>
+                <span className={`font-display text-lg font-black ${limitReached ? "text-stamp" : "text-ink"}`}>
+                  {remaining}/{DAILY_LIMIT}
+                </span>
+              </div>
+              <p className="mt-2 font-serif text-xs italic text-foreground/60 max-w-md mx-auto">
+                Each roast uses AI compute — we limit daily usage to keep this tool free for everyone.
+              </p>
+            </div>
+
+            {limitReached ? (
+              <div className="border-2 border-stamp bg-white p-6 text-center">
+                <div className="font-display text-2xl font-black uppercase tracking-tight text-stamp mb-2">
+                  Today's Edition is Sold Out
+                </div>
+                <p className="font-serif text-sm text-foreground/70 mb-1">
+                  You've used your {DAILY_LIMIT} free roasts for today.
+                </p>
+                <p className="font-mono-news text-xs uppercase tracking-widest text-foreground/50">
+                  Come back tomorrow for a fresh batch.
+                </p>
+              </div>
+            ) : (
+              <UploadZone onFile={handleFile} />
+            )}
 
             {phase === "error" && (
               <div className="mt-4 border-2 border-stamp bg-white p-3 font-mono-news text-sm text-stamp">
