@@ -82,7 +82,7 @@ export const roastResume = createServerFn({ method: "POST" })
 
     if (data.provider === "groq") {
       if (!groqKey) {
-        throw new Error("GROQ_API_KEY not configured. Please add it to your .env file.");
+        throw new Error("The Llama engine is currently unavailable. Please try switching to the Gemini engine.");
       }
       url = "https://api.groq.com/openai/v1/chat/completions";
       headers["Authorization"] = `Bearer ${groqKey}`;
@@ -98,7 +98,7 @@ export const roastResume = createServerFn({ method: "POST" })
         model = process.env.OPENAI_MODEL || "gpt-4o-mini";
       } else {
         throw new Error(
-          "No API key configured. Please set GEMINI_API_KEY or OPENAI_API_KEY in your environment variables or .env file."
+          "The Gemini engine is currently unavailable. Please try switching to the Llama engine."
         );
       }
     }
@@ -122,8 +122,10 @@ export const roastResume = createServerFn({ method: "POST" })
 
     if (!res.ok) {
       const body = await res.text();
-      if (res.status === 429) throw new Error("Rate limit hit. Try again in a moment.");
-      throw new Error(`AI error ${res.status}: ${body.slice(0, 200)}`);
+      if (res.status === 429) {
+        throw new Error("The AI engine is currently overloaded or hit a rate limit. Please try switching to a different AI engine in the dropdown above!");
+      }
+      throw new Error(`The AI engine encountered an unexpected error (Code ${res.status}). Please try switching to a different AI engine in the dropdown above!`);
     }
 
     const json = await res.json();
@@ -135,7 +137,7 @@ export const roastResume = createServerFn({ method: "POST" })
         : undefined);
     if (!content) {
       console.error("Empty AI response. finish_reason:", choice?.finish_reason, "raw:", JSON.stringify(json).slice(0, 500));
-      throw new Error("Empty AI response");
+      throw new Error("The AI engine returned an empty response. Please try again or switch to a different AI engine.");
     }
 
     let parsed: RoastResult;
@@ -143,7 +145,7 @@ export const roastResume = createServerFn({ method: "POST" })
       parsed = JSON.parse(content);
     } catch {
       const match = content.match(/\{[\s\S]*\}/);
-      if (!match) throw new Error("Could not parse AI response as JSON");
+      if (!match) throw new Error("The AI engine got confused and returned malformed data. Please try again or switch to a different AI engine.");
       parsed = JSON.parse(match[0]);
     }
     return parsed;
